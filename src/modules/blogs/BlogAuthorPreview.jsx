@@ -1,25 +1,11 @@
 import { List, ListItem, TextField } from '@mui/material';
 import { FieldsGroupWrapper } from 'shared/components';
 
-const Author = ({ id, content, setBlog }) => {
-  const { author, date } = content;
+const BlogAuthorPreview = ({ content, setBlog }) => {
+  const { author, date } = content || {};
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setBlog((p) =>
-      p.map((el) =>
-        el.id !== id
-          ? el
-          : {
-              ...el,
-              content:
-                name === 'author'
-                  ? { ...el.content, author: value }
-                  : name === 'date'
-                    ? { ...el.content, date: value }
-                    : el.content,
-            }
-      )
-    );
+    setBlog((p) => ({ ...p, author: { ...p.author, [name]: value } }));
   };
   return (
     <FieldsGroupWrapper label={'Публікація'}>
@@ -50,4 +36,4 @@ const Author = ({ id, content, setBlog }) => {
   );
 };
 
-export default Author;
+export default BlogAuthorPreview;

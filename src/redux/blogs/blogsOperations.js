@@ -3,7 +3,6 @@ import {
   addBlogApi,
   deleteBlogApi,
   getBlogsListApi,
-  getOneBlogApi,
   updateBlogApi,
 } from 'services/blogsApi';
 
@@ -19,25 +18,7 @@ export const getBlogsList = createAsyncThunk(
   },
   {
     condition(_, { getState }) {
-      return getState().blogs.length < 2;
-    },
-  }
-);
-
-export const getOneBlog = createAsyncThunk(
-  'get/one-blog',
-  async (blogId, { rejectWithValue }) => {
-    try {
-      const blog = await getOneBlogApi(blogId);
-      return blog;
-    } catch (error) {
-      return rejectWithValue(error.message);
-    }
-  },
-  {
-    condition(blogId, { getState }) {
-      const blog = getState().blogs.find((el) => el._id === blogId);
-      return !blog;
+      return getState().blogs.blogs.length < 2;
     },
   }
 );

@@ -1,17 +1,13 @@
 import { TextField } from '@mui/material';
 import { useCallback } from 'react';
 
-const BlogImage = ({ id, content, setBlog }) => {
+const BlogImagePreview = ({ content, setBlog }) => {
   const handleChange = useCallback(
     (e) => {
-      setBlog((p) => ({
-        ...p,
-        items: p.items.map((el) =>
-          el.id !== id ? el : { ...el, content: e.target.value }
-        ),
-      }));
+      const { name, value } = e.target;
+      setBlog((p) => ({ ...p, [name]: value }));
     },
-    [id, setBlog]
+    [setBlog]
   );
   return (
     <TextField
@@ -20,8 +16,9 @@ const BlogImage = ({ id, content, setBlog }) => {
       value={content}
       onChange={handleChange}
       fullWidth
+      name="previewUrl"
     />
   );
 };
 
-export default BlogImage;
+export default BlogImagePreview;

@@ -25,16 +25,12 @@ const linkOptions = [
     to: '/',
   },
   {
-    title: 'Товари',
-    to: '/products',
+    title: 'Відгуки',
+    to: '/feedbacks',
   },
   {
     title: 'Блоги',
     to: '/blogs',
-  },
-  {
-    title: 'Про БрашБаді',
-    to: '/about',
   },
 ];
 

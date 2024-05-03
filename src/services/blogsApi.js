@@ -1,4 +1,4 @@
-import { bbInstance as instance } from './bbApi';
+import { baseInstance as instance } from './baseApi';
 
 export const getBlogsListApi = async () => {
   const { data } = await instance.get('/blogs');
@@ -11,12 +11,12 @@ export const getOneBlogApi = async (id) => {
 };
 
 export const addBlogApi = async (blog) => {
-  const { data } = await instance.post(`/blogs`, { items: blog });
+  const { data } = await instance.post(`/blogs`, blog);
   return data;
 };
 
 export const updateBlogApi = async ({ id, blog }) => {
-  const { data } = await instance.patch(`/blogs/${id}`, { items: blog });
+  const { data } = await instance.patch(`/blogs/${id}`, blog);
   return data;
 };
 

@@ -10,9 +10,9 @@ import {
   persistReducer,
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import productsReducer from './products/productsSlice';
 import authReducer from './auth/authSlice';
 import blogsReducer from './blogs/blogsSlice';
+import errorsReducer from './error/errorsSlice';
 
 const authPersistConfig = {
   key: 'root',
@@ -25,8 +25,8 @@ const persistedAuthReducer = persistReducer(authPersistConfig, authReducer);
 export const store = configureStore({
   reducer: {
     auth: persistedAuthReducer,
-    products: productsReducer,
     blogs: blogsReducer,
+    error: errorsReducer,
   },
   middleware: (gdm) =>
     gdm({

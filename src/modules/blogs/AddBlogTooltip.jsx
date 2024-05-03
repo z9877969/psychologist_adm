@@ -5,18 +5,19 @@ import { BLOG_ITEMS } from 'shared/constants';
 import IconPlus from '@mui/icons-material/ControlPointRounded';
 
 const options = [
-  { title: 'Абзац', itemType: BLOG_ITEMS.PARAGRAPH },
   { title: 'Заголовок-1', itemType: BLOG_ITEMS.PRIMARY_TITLE },
-  { title: 'Заголовок-2', itemType: BLOG_ITEMS.SECONDARY_TITLE },
-  { title: 'Список', itemType: BLOG_ITEMS.LIST },
+  { title: 'Абзац', itemType: BLOG_ITEMS.PARAGRAPH },
   { title: 'Зображення', itemType: BLOG_ITEMS.IMAGE },
-  { title: 'Автор', itemType: BLOG_ITEMS.ABOUT },
+  { title: 'Цитата', itemType: BLOG_ITEMS.QUOTE },
+  // { title: 'Заголовок-2', itemType: BLOG_ITEMS.SECONDARY_TITLE },
+  // { title: 'Список', itemType: BLOG_ITEMS.LIST },
+  // { title: 'Автор', itemType: BLOG_ITEMS.ABOUT },
 ];
 
 const AddBlogTooltip = ({ setBlog }) => {
   const addBlogItem = useCallback(
     (itemType) => {
-      setBlog((p) => [...p, createBlogItem(itemType)]);
+      setBlog((p) => ({ ...p, items: [...p.items, createBlogItem(itemType)] }));
     },
     [setBlog]
   );

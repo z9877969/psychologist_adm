@@ -1,11 +1,12 @@
-import About from './Author';
+import About from './BlogAuthorPreview';
 import BlogImage from './BlogImage';
 import Paragraph from './Paragraph';
 import PrimaryTitle from './PrimaryTitle';
+import Quote from './Quote';
 import SecondaryTitle from './SecondaryTitle';
 import TextList from './TextList';
 
-const BlogItemByType = ({ block, content, accent, id, setBlog }) => {
+const BlogItemByType = ({ block, content, accent, author, id, setBlog }) => {
   switch (block) {
     case 'primaryTitle':
       return <PrimaryTitle id={id} content={content} setBlog={setBlog} />;
@@ -26,6 +27,16 @@ const BlogItemByType = ({ block, content, accent, id, setBlog }) => {
       return <SecondaryTitle id={id} content={content} setBlog={setBlog} />;
     case 'image':
       return <BlogImage id={id} content={content} setBlog={setBlog} />;
+    case 'quote':
+      return (
+        <Quote
+          id={id}
+          content={content}
+          accent={accent}
+          author={author}
+          setBlog={setBlog}
+        />
+      );
     default:
       return null;
   }

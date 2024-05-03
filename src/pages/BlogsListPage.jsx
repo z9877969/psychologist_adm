@@ -11,6 +11,7 @@ import {
 } from '@mui/material';
 import { getBlogsList } from '@redux/blogs/blogsOperations';
 import { selectBlogsList } from '@redux/blogs/blogsSelectors';
+import { BLOG_ITEMS } from 'shared/constants';
 
 const BlogsListPage = () => {
   const dispatch = useDispatch();
@@ -51,7 +52,11 @@ const BlogsListPage = () => {
                 }}
               >
                 <Typography variant="button" color={'InfoText'} component={'p'}>
-                  {el.items[0].content}
+                  {
+                    el.items?.find(
+                      (item) => item.block === BLOG_ITEMS.PRIMARY_TITLE
+                    )?.content
+                  }
                 </Typography>
               </FormGroup>
             </Link>

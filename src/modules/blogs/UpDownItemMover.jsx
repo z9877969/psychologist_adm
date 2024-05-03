@@ -6,23 +6,29 @@ import IconDown from '@mui/icons-material/ExpandMore';
 const UpDownItemMover = ({ children, id, setBlog, canToTop, canToBottom }) => {
   const moveItemToTop = useCallback(() => {
     setBlog((p) => {
-      const curIdx = p.findIndex((el) => el.id === id);
-      const curEl = p[curIdx];
-      const prevEl = p[curIdx - 1];
-      return p.map((el, idx) =>
-        idx === curIdx ? prevEl : idx === curIdx - 1 ? curEl : el
-      );
+      const curIdx = p.items.findIndex((el) => el.id === id);
+      const curEl = p.items[curIdx];
+      const prevEl = p.items[curIdx - 1];
+      return {
+        ...p,
+        items: p.items.map((el, idx) =>
+          idx === curIdx ? prevEl : idx === curIdx - 1 ? curEl : el
+        ),
+      };
     });
   }, [setBlog, id]);
 
   const moveItemToBottom = useCallback(() => {
     setBlog((p) => {
-      const curIdx = p.findIndex((el) => el.id === id);
-      const curEl = p[curIdx];
-      const nextEl = p[curIdx + 1];
-      return p.map((el, idx) =>
-        idx === curIdx ? nextEl : idx === curIdx + 1 ? curEl : el
-      );
+      const curIdx = p.items.findIndex((el) => el.id === id);
+      const curEl = p.items[curIdx];
+      const nextEl = p.items[curIdx + 1];
+      return {
+        ...p,
+        items: p.items.map((el, idx) =>
+          idx === curIdx ? nextEl : idx === curIdx + 1 ? curEl : el
+        ),
+      };
     });
   }, [setBlog, id]);
 

@@ -18,6 +18,7 @@
     "@mui/icons-material": "^5.15.15",
     "@mui/material": "^5.15.15",
     "@mui/styles": "^5.15.15",
+    "@mui/x-data-grid": "^7.3.2",
     "@reduxjs/toolkit": "^2.2.1",
     "@tiptap/core": "^2.3.0",
     "@tiptap/extension-heading": "^2.3.0",

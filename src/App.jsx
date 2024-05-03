@@ -1,53 +1,58 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { ROUTES } from 'shared/constants';
 import {
-  AboutBrushBuddyPage,
   BlogsListPage,
+  FeedbacksListPage,
   MainPage,
   OneBlogPage,
-  OneProductPage,
-  ProductsListPage, // MainPage,
+  LoginPage,
 } from './pages';
 import { SharedLayout } from 'shared/components';
 import { Toastify } from 'shared/components';
 import { PrivateRoute, PublicRoute } from 'containers';
-import LoginPage from 'pages/LoginPage';
+import { useError } from 'hooks/useError';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCurUser } from '@redux/auth/authOperations';
+import { selectIsRefresh } from '@redux/auth/authSelectors';
 
 function App() {
+  const dispatch = useDispatch();
+  const isRefresh = useSelector(selectIsRefresh);
+
+  useError();
+
+  useEffect(() => {
+    dispatch(getCurUser());
+  }, [dispatch]);
+
   return (
     <>
       <Toastify />
-      <Routes>
-        <Route path={ROUTES.HOME} element={<SharedLayout />}>
-          <Route index element={<PrivateRoute component={<MainPage />} />} />
-          <Route
-            path="products"
-            element={<PrivateRoute component={<ProductsListPage />} />}
-          />
-          <Route
-            path="products/:prodId/*"
-            element={<PrivateRoute component={<OneProductPage />} />}
-          />
-          <Route
-            path="blogs"
-            element={<PrivateRoute component={<BlogsListPage />} />}
-          />
-          <Route
-            path="blogs/:blogId"
-            element={<PrivateRoute component={<OneBlogPage />} />}
-          />
-
-          <Route
-            path="about"
-            element={<PrivateRoute component={<AboutBrushBuddyPage />} />}
-          />
-          <Route
-            path="login"
-            element={<PublicRoute component={<LoginPage />} />}
-          />
-        </Route>
-        <Route path="*" element={<Navigate to={ROUTES.HOME} />} />
-      </Routes>
+      {!isRefresh && (
+        <Routes>
+          <Route path={ROUTES.HOME} element={<SharedLayout />}>
+            <Route index element={<PrivateRoute component={<MainPage />} />} />
+            <Route
+              path="feedbacks"
+              element={<PrivateRoute component={<FeedbacksListPage />} />}
+            />
+            <Route
+              path="blogs"
+              element={<PrivateRoute component={<BlogsListPage />} />}
+            />
+            <Route
+              path="blogs/:blogId"
+              element={<PrivateRoute component={<OneBlogPage />} />}
+            />
+            <Route
+              path="login"
+              element={<PublicRoute component={<LoginPage />} />}
+            />
+          </Route>
+          <Route path="*" element={<Navigate to={ROUTES.HOME} />} />
+        </Routes>
+      )}
     </>
   );
 }

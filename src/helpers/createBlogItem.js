@@ -3,29 +3,22 @@ import { BLOG_ITEMS } from 'shared/constants';
 
 const blogItems = {
   [BLOG_ITEMS.PRIMARY_TITLE]: {
-    block: 'primaryTitle',
+    block: BLOG_ITEMS.PRIMARY_TITLE,
     content: '',
-  },
-  [BLOG_ITEMS.ABOUT]: {
-    block: 'about',
-    content: ['', ''],
   },
   [BLOG_ITEMS.PARAGRAPH]: {
-    block: 'paragraph',
+    block: BLOG_ITEMS.PARAGRAPH,
     content: '',
-    accent: [],
-  },
-  [BLOG_ITEMS.LIST]: {
-    block: 'list',
-    content: [],
   },
   [BLOG_ITEMS.IMAGE]: {
-    block: 'image',
+    block: BLOG_ITEMS.IMAGE,
     content: '',
   },
-  [BLOG_ITEMS.SECONDARY_TITLE]: {
-    block: 'secondaryTitle',
+  [BLOG_ITEMS.QUOTE]: {
+    block: BLOG_ITEMS.QUOTE,
     content: '',
+    accent: '',
+    author: '',
   },
 };
 

@@ -1,22 +1,29 @@
-import { Box, FormGroup } from '@mui/material';
-import { addBlog, deleteBlog, updateBlog } from '@redux/blogs/blogsOperations';
-import { useBlog } from 'hooks';
-import { AddBlogTooltip, BlogItemByType, UpDownItemMover } from 'modules/blogs';
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
+import { Box, FormGroup } from '@mui/material';
+import {
+  AddBlogTooltip,
+  BlogItemByType,
+  UpDownItemMover,
+  BlogPreview,
+} from 'modules/blogs';
 import { FormButtons, RemovingItemWrapper } from 'shared/components';
+import { addBlog, deleteBlog, updateBlog } from '@redux/blogs/blogsOperations';
+import { useBlog } from 'hooks';
 
 const OneBlogPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { blogId } = useParams();
-  const { blog, setBlog, storedBlog } = useBlog();
   const [canSave, setCanSave] = useState(false);
+  const { blog, setBlog, storedBlog } = useBlog();
+
+  const { items, author, category, previewUrl } = blog || {};
 
   const handleBlogItemRemove = useCallback(
     (id) => {
-      setBlog((p) => p.filter((el) => el.id !== id));
+      setBlog((p) => ({ ...p, items: p.items.filter((el) => el.id !== id) }));
     },
     [setBlog]
   );
@@ -25,8 +32,16 @@ const OneBlogPage = () => {
     try {
       e.preventDefault();
       blogId !== 'new'
-        ? await dispatch(updateBlog({ blog, blogId }))
-        : await dispatch(addBlog(blog)).then(({ payload }) => {
+        ? await dispatch(
+            updateBlog({
+              blog: { ...blog, category: blog.category._id },
+              blogId,
+            })
+          )
+        : await dispatch(
+            addBlog({ ...blog, category: blog.category._id })
+          ).then(({ payload }) => {
+            console.log('payload :>> ', payload);
             navigate(`/blogs/${payload._id}`);
           });
     } catch (error) {
@@ -49,10 +64,10 @@ const OneBlogPage = () => {
   };
 
   useEffect(() => {
-    if (!canSave && blogId === 'new' && blog?.length > 0) {
+    if (!canSave && blogId === 'new' && blog) {
       setCanSave(true);
     }
-    if (!canSave && blog?.length && storedBlog?.length) {
+    if (!canSave && blog && storedBlog) {
       if (JSON.stringify(blog) !== JSON.stringify(storedBlog)) {
         setCanSave(true);
       }
@@ -62,42 +77,57 @@ const OneBlogPage = () => {
   if (!blog) return null;
 
   return (
-    <Box sx={{ pb: 3 }} component={'form'} onSubmit={handleSubmit}>
-      {blog.length > 0 && (
-        <FormGroup sx={{ pr: 2, '& > :not(style)': { mb: 1 } }}>
-          {blog.map(({ block, content, accent, id }, idx, arr) => (
-            <RemovingItemWrapper
-              onClick={() => handleBlogItemRemove(id)}
-              key={id}
-            >
-              <Box width={'100%'} display={'flex'}>
-                <UpDownItemMover
-                  id={id}
-                  canToBottom={idx < arr.length - 1}
-                  canToTop={idx > 0}
-                  setBlog={setBlog}
+    blog && (
+      <Box sx={{ pb: 3 }} component={'form'} onSubmit={handleSubmit}>
+        <BlogPreview
+          author={author}
+          category={category}
+          previewUrl={previewUrl}
+          setBlog={setBlog}
+        />
+        {items?.length > 0 && (
+          <FormGroup sx={{ pr: 2, '& > :not(style)': { mb: 1 } }}>
+            {items.map(
+              (
+                { block, content, accent, id, author: quoteAuthor },
+                idx,
+                arr
+              ) => (
+                <RemovingItemWrapper
+                  onClick={() => handleBlogItemRemove(id)}
+                  key={id}
                 >
-                  <BlogItemByType
-                    accent={accent}
-                    block={block}
-                    content={content}
-                    id={id}
-                    setBlog={setBlog}
-                  />
-                </UpDownItemMover>
-              </Box>
-            </RemovingItemWrapper>
-          ))}
-        </FormGroup>
-      )}
-      <AddBlogTooltip setBlog={setBlog} />
-      <FormButtons
-        disabledCancel={blogId !== 'new' && !canSave}
-        disabledSave={!canSave}
-        onCancel={handleCancelSave}
-        onDelete={blogId !== 'new' && handleDeleteProduct}
-      />
-    </Box>
+                  <Box width={'100%'} display={'flex'}>
+                    <UpDownItemMover
+                      id={id}
+                      canToBottom={idx < arr.length - 1}
+                      canToTop={idx > 0}
+                      setBlog={setBlog}
+                    >
+                      <BlogItemByType
+                        accent={accent}
+                        block={block}
+                        content={content}
+                        author={quoteAuthor}
+                        id={id}
+                        setBlog={setBlog}
+                      />
+                    </UpDownItemMover>
+                  </Box>
+                </RemovingItemWrapper>
+              )
+            )}
+          </FormGroup>
+        )}
+        <AddBlogTooltip setBlog={setBlog} />
+        <FormButtons
+          disabledCancel={blogId !== 'new' && !canSave}
+          disabledSave={!canSave}
+          onCancel={handleCancelSave}
+          onDelete={blogId !== 'new' && handleDeleteProduct}
+        />
+      </Box>
+    )
   );
 };
 

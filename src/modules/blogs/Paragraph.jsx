@@ -1,35 +1,17 @@
-import { useCallback, useState } from 'react';
-import { Chip, List, ListItem } from '@mui/material';
-import IconPlus from '@mui/icons-material/ControlPointRounded';
-import {
-  FieldsGroupWrapper,
-  RemovingItemWrapper,
-  Textarea,
-} from 'shared/components';
+import { useCallback } from 'react';
+import { List, ListItem } from '@mui/material';
+import { FieldsGroupWrapper, Textarea } from 'shared/components';
 
-const Paragraph = ({ id, content, accent, setBlog }) => {
-  const [isAccent, setIsAccent] = useState(() => accent?.length > 0);
-
+const Paragraph = ({ id, content, setBlog }) => {
   const handleChange = useCallback(
     (e) => {
-      const { value, name } = e.target;
-      setBlog((p) =>
-        p.map((el) =>
-          el.id !== id
-            ? el
-            : name === 'content'
-              ? {
-                  ...el,
-                  content: value,
-                }
-              : name === 'accent'
-                ? {
-                    ...el,
-                    accent: value.split('\n'),
-                  }
-                : el
-        )
-      );
+      const { value } = e.target;
+      setBlog((p) => ({
+        ...p,
+        items: p.items.map((el) =>
+          el.id !== id ? el : { ...el, content: value }
+        ),
+      }));
     },
     [setBlog, id]
   );
@@ -48,39 +30,6 @@ const Paragraph = ({ id, content, accent, setBlog }) => {
               sx={{ width: '100%' }}
             />
           </FieldsGroupWrapper>
-        </ListItem>
-        <ListItem>
-          {isAccent ? (
-            <RemovingItemWrapper
-              onClick={() => {
-                setIsAccent(false);
-                setBlog((p) =>
-                  p.map((el) => (el.id !== id ? el : { ...el, accent: [] }))
-                );
-              }}
-              sx={{ width: '100%' }}
-            >
-              <FieldsGroupWrapper
-                label="Акцент"
-                sx={{ width: '100%', border: 'none' }}
-              >
-                <Textarea
-                  name="accent"
-                  value={accent?.join('\n') || ''}
-                  onChange={handleChange}
-                  sx={{ width: '100%' }}
-                />
-              </FieldsGroupWrapper>
-            </RemovingItemWrapper>
-          ) : (
-            <Chip
-              label={'Акцент'}
-              variant="outlined"
-              color="success"
-              icon={<IconPlus />}
-              onClick={() => setIsAccent(true)}
-            />
-          )}
         </ListItem>
       </List>
     </FieldsGroupWrapper>

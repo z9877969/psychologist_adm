@@ -1,9 +1,7 @@
-import { Box, Button, TextField } from '@mui/material';
-import { login } from '@redux/auth/authSlice';
-import { useFormik } from 'formik';
 import { useDispatch } from 'react-redux';
-
-const env = import.meta.env;
+import { useFormik } from 'formik';
+import { Box, Button, TextField } from '@mui/material';
+import { loginUser } from '@redux/auth/authOperations';
 
 const LoginPage = () => {
   const dispatch = useDispatch();
@@ -14,12 +12,7 @@ const LoginPage = () => {
       password: '',
     },
     onSubmit: (values) => {
-      if (
-        values.email === env.VITE_EMAIL &&
-        values.password === env.VITE_PASSWORD
-      ) {
-        dispatch(login());
-      }
+      dispatch(loginUser(values));
     },
   });
 

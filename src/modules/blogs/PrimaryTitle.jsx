@@ -4,9 +4,12 @@ import { TextField, Box } from '@mui/material';
 const PrimaryTitle = ({ id, content, setBlog }) => {
   const handleChange = useCallback(
     (e) => {
-      setBlog((p) =>
-        p.map((el) => (el.id !== id ? el : { ...el, content: e.target.value }))
-      );
+      setBlog((p) => ({
+        ...p,
+        items: p.items.map((el) =>
+          el.id !== id ? el : { ...el, content: e.target.value }
+        ),
+      }));
     },
     [id, setBlog]
   );
