@@ -15,6 +15,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCurUser } from '@redux/auth/authOperations';
 import { selectIsRefresh } from '@redux/auth/authSelectors';
+import { LoaderWrapper } from 'modules/layout';
 
 function App() {
   const dispatch = useDispatch();
@@ -29,6 +30,7 @@ function App() {
   return (
     <>
       <Toastify />
+      <LoaderWrapper />
       {!isRefresh && (
         <Routes>
           <Route path={ROUTES.HOME} element={<SharedLayout />}>

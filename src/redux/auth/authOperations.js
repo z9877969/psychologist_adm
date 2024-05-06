@@ -1,4 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { createAxiosError } from 'helpers';
 import { getCurUserApi, loginUserApi, logoutUserApi } from 'services/authApi';
 
 export const loginUser = createAsyncThunk(
@@ -19,7 +20,8 @@ export const logoutUser = createAsyncThunk(
     try {
       await logoutUserApi();
     } catch (error) {
-      return rejectWithValue(error.message);
+      const { message, status } = createAxiosError(error);
+      return rejectWithValue({ message, status });
     }
   }
 );
@@ -31,7 +33,8 @@ export const getCurUser = createAsyncThunk(
       const { token } = getState().auth;
       await getCurUserApi(token);
     } catch (error) {
-      return rejectWithValue(error.message);
+      const { message, status } = createAxiosError(error);
+      return rejectWithValue({ message, status });
     }
   },
   {

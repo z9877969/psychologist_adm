@@ -1,4 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { createAxiosError } from 'helpers';
 import {
   addBlogApi,
   deleteBlogApi,
@@ -13,7 +14,8 @@ export const getBlogsList = createAsyncThunk(
       const blogs = await getBlogsListApi();
       return blogs;
     } catch (error) {
-      return rejectWithValue(error.message);
+      const { message, status } = createAxiosError(error);
+      return rejectWithValue({ message, status });
     }
   },
   {
@@ -30,7 +32,8 @@ export const addBlog = createAsyncThunk(
       const blog = await addBlogApi(blogData);
       return blog;
     } catch (error) {
-      return rejectWithValue(error.message);
+      const { message, status } = createAxiosError(error);
+      return rejectWithValue({ message, status });
     }
   }
 );
@@ -42,7 +45,8 @@ export const updateBlog = createAsyncThunk(
       const blogData = await updateBlogApi({ blog, id: blogId });
       return blogData;
     } catch (error) {
-      return rejectWithValue(error.message);
+      const { message, status } = createAxiosError(error);
+      return rejectWithValue({ message, status });
     }
   }
 );
@@ -54,7 +58,8 @@ export const deleteBlog = createAsyncThunk(
       const blog = await deleteBlogApi(blogId);
       return blog;
     } catch (error) {
-      return rejectWithValue(error.message);
+      const { message, status } = createAxiosError(error);
+      return rejectWithValue({ message, status });
     }
   }
 );

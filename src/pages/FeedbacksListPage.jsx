@@ -1,10 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import {
   Box,
-  Checkbox,
   IconButton,
-  List,
-  ListItem,
   Paper,
   Switch,
   Table,
@@ -20,10 +17,22 @@ import {
   updateFeedbackStatusApi,
 } from 'services/feedbacksApi';
 import DeleteIcon from '@mui/icons-material/DeleteForever';
+import { useDispatch } from 'react-redux';
+import { setError as setErrorAction } from '@redux/error/errorsSlice';
+import { createAxiosError } from 'helpers';
+import { setLoading } from '@redux/loader/loaderSlice';
 
 const FeedbackListPage = () => {
+  const dispatch = useDispatch();
   const [feedbacks, setFeedbacks] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const setIsLoading = useCallback(
+    (state) => {
+      dispatch(setLoading(state));
+    },
+    [dispatch]
+  );
 
   const handleChangeStatus = async (e, id) => {
     try {
@@ -32,8 +41,7 @@ const FeedbackListPage = () => {
       const data = await updateFeedbackStatusApi({ id, showStatus: checked });
       setFeedbacks((p) => p.map((el) => (el._id !== id ? el : data)));
     } catch (error) {
-      // eslint-disable-next-line
-      console.log(error.message);
+      setError(error);
     } finally {
       setIsLoading(false);
     }
@@ -45,8 +53,7 @@ const FeedbackListPage = () => {
       await deleteFeedbackApi(id);
       setFeedbacks((p) => p.filter((el) => el._id !== id));
     } catch (error) {
-      // eslint-disable-next-line
-      console.log(error.message);
+      setError(error);
     } finally {
       setIsLoading(false);
     }
@@ -59,14 +66,20 @@ const FeedbackListPage = () => {
         const data = await getFeedbacksListApi();
         setFeedbacks(data);
       } catch (error) {
-        // eslint-disable-next-line
-        console.log(error.message);
+        setError(error);
       } finally {
         setIsLoading(false);
       }
     };
     getFeedbacks();
-  }, []);
+  }, [setIsLoading]);
+
+  useEffect(() => {
+    if (error) {
+      const { message, status } = createAxiosError(error);
+      dispatch(setErrorAction({ message, status }));
+    }
+  }, [error, dispatch]);
 
   return (
     <Box sx={{ pb: 3 }}>

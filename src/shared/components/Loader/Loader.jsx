@@ -1,17 +1,15 @@
-import { useEffect, useState } from 'react';
 import s from './Loader.module.scss';
+import { createPortal } from 'react-dom';
+
+const loaderRoot = document.querySelector('#loader-root');
 
 const Loader = () => {
-  const [isShow, setIsShow] = useState(false);
-
-  useEffect(() => {
-    const id = setTimeout(() => {
-      setIsShow(true);
-    }, 500);
-    return () => clearInterval(id);
-  }, []);
-
-  return <div className={s.wrapper}>{isShow && <h1>Завантажуємо...</h1>}</div>;
+  return createPortal(
+    <div className={s.wrapper}>
+      <h1>Завантажуємо...</h1>
+    </div>,
+    loaderRoot
+  );
 };
 
 export default Loader;

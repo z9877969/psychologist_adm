@@ -1,33 +1,46 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Box, FormGroup } from '@mui/material';
-import { FormButtons } from 'shared/components';
-import { getPagesApi, updatePageApi } from 'services/pagesApi';
 import {
   MyHelpSection,
   SertificatesSection,
   VideoSection,
 } from 'modules/mainPage';
+import { FormButtons } from 'shared/components';
+import { getPagesApi, updatePageApi } from 'services/pagesApi';
+import { setError as setErrorAction } from '@redux/error/errorsSlice';
+import { createAxiosError } from 'helpers/createAxiosError';
+import { setLoading } from '@redux/loader/loaderSlice';
 
 const MainPage = () => {
+  const dispatch = useDispatch();
   const [page, setPage] = useState(null);
-
   const [canSave, setCanSave] = useState(false);
+  const [error, setError] = useState(null);
 
   const pageRef = useRef(null);
+
+  const setIsLoading = useCallback(
+    (state) => {
+      dispatch(setLoading(state));
+    },
+    [dispatch]
+  );
 
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
+      // eslint-disable-next-line
       const { _id, items, ...body } = page;
-      items;
+      setIsLoading(true);
       const data = await updatePageApi(_id, body);
       setCanSave(false);
       pageRef.current = JSON.stringify(data);
     } catch (error) {
-      // eslint-disable-next-line
-      console.log(error.message);
+      setError(error);
     } finally {
       setCanSave(false);
+      setIsLoading(false);
     }
   };
 
@@ -46,12 +59,26 @@ const MainPage = () => {
 
   useEffect(() => {
     const getPages = async () => {
-      const data = await getPagesApi('main');
-      setPage(data);
-      pageRef.current = JSON.stringify(data);
+      try {
+        setIsLoading(true);
+        const data = await getPagesApi('main');
+        setPage(data);
+        pageRef.current = JSON.stringify(data);
+      } catch (error) {
+        setError(error);
+      } finally {
+        setIsLoading(true);
+      }
     };
     getPages();
-  }, []);
+  }, [setIsLoading]);
+
+  useEffect(() => {
+    if (error) {
+      const { message, status } = createAxiosError(error);
+      dispatch(setErrorAction({ message, status }));
+    }
+  }, [error, dispatch]);
 
   if (!page) return null;
 

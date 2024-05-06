@@ -12,7 +12,8 @@ const LoginPage = () => {
       password: '',
     },
     onSubmit: (values) => {
-      dispatch(loginUser(values));
+      const { email, password } = values;
+      dispatch(loginUser({ email: email.trim(), password: password.trim() }));
     },
   });
 
