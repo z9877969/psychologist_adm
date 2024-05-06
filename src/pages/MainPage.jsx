@@ -67,7 +67,7 @@ const MainPage = () => {
       } catch (error) {
         setError(error);
       } finally {
-        setIsLoading(true);
+        setIsLoading(false);
       }
     };
     getPages();
