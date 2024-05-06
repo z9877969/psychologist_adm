@@ -85,7 +85,7 @@ const FeedbackListPage = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {feedbacks.map(({ _id, isShow, name, age, phone, message }) => (
+            {feedbacks.map(({ _id, isShow, author, age, phone, message }) => (
               <TableRow key={_id} sx={{ '& > *': { borderBottom: 'unset' } }}>
                 <TableCell>
                   <Switch
@@ -96,7 +96,7 @@ const FeedbackListPage = () => {
                   />
                 </TableCell>
                 <TableCell component="th" scope="row">
-                  {name}
+                  {author}
                 </TableCell>
                 <TableCell align="right">{age}</TableCell>
                 <TableCell align="left">{message}</TableCell>
