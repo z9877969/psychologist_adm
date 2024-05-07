@@ -53,7 +53,7 @@ const MyHelpSection = ({ list, block, setPage }) => {
   };
   return (
     <FieldsGroupWrapper
-      label={'Секція сертифікатів'}
+      label={'Секція з розцінками'}
       sx={{
         p: 0,
         pt: 2,
