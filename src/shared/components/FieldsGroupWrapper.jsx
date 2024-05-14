@@ -1,14 +1,6 @@
 import { Box, Typography } from '@mui/material';
 
 const FieldsGroupWrapper = ({ label, children, rowGap = 2, sx, ...props }) => {
-  // const onlyOneChildProp = { '& > :not(style):not(:first-of-type)': { mb: 2 } };
-  // const moreThanOneChildrenProp = {
-  //   '& > :not(style):not(:last-child)': { mb: 2 },
-  // };
-  // const currentProp = Array.isArray(children)
-  //   ? moreThanOneChildrenProp
-  //   : onlyOneChildProp;
-
   return (
     <Box
       sx={{
@@ -19,7 +11,6 @@ const FieldsGroupWrapper = ({ label, children, rowGap = 2, sx, ...props }) => {
         pt: 2,
         pb: '4px',
         width: '100%',
-        // mb: 2,
         ...sx,
       }}
       {...props}
@@ -38,7 +29,6 @@ const FieldsGroupWrapper = ({ label, children, rowGap = 2, sx, ...props }) => {
       >
         {label}
       </Typography>
-      {/* <Box sx={{ ...currentProp, width: '100%', pt: 1 }}>{children}</Box> */}
       <Box
         sx={{
           display: 'flex',

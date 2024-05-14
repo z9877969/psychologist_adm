@@ -1,5 +1,4 @@
 import { useCallback } from 'react';
-import { List, ListItem } from '@mui/material';
 import { FieldsGroupWrapper, Textarea } from 'shared/components';
 
 const Paragraph = ({ id, content, setBlog }) => {
@@ -17,18 +16,12 @@ const Paragraph = ({ id, content, setBlog }) => {
   );
   return (
     <FieldsGroupWrapper label={'Абзац'}>
-      <List>
-        <ListItem>
-          <FieldsGroupWrapper label="Текст" sx={{ border: 'none' }}>
-            <Textarea
-              name="content"
-              value={content}
-              onChange={handleChange}
-              sx={{ width: '100%' }}
-            />
-          </FieldsGroupWrapper>
-        </ListItem>
-      </List>
+      <Textarea
+        name="content"
+        value={content}
+        onChange={handleChange}
+        sx={{ width: '100%', mt: '-8px' }}
+      />
     </FieldsGroupWrapper>
   );
 };
