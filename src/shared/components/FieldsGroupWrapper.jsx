@@ -1,12 +1,16 @@
 import { Box, Typography } from '@mui/material';
 
-const FieldsGroupWrapper = ({ label, children, sx, ...props }) => {
+const FieldsGroupWrapper = ({ label, children, rowGap = 2, sx, ...props }) => {
   return (
     <Box
       sx={{
         border: '1px solid #00000050',
         borderRadius: 1,
         position: 'relative',
+        p: 1,
+        pt: 2,
+        pb: '4px',
+        width: '100%',
         ...sx,
       }}
       {...props}
@@ -25,7 +29,17 @@ const FieldsGroupWrapper = ({ label, children, sx, ...props }) => {
       >
         {label}
       </Typography>
-      {children}
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          rowGap,
+          width: '100%',
+          pt: 1,
+        }}
+      >
+        {children}
+      </Box>
     </Box>
   );
 };

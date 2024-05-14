@@ -9,9 +9,6 @@ const options = [
   { title: 'Абзац', itemType: BLOG_ITEMS.PARAGRAPH },
   { title: 'Зображення', itemType: BLOG_ITEMS.IMAGE },
   { title: 'Цитата', itemType: BLOG_ITEMS.QUOTE },
-  // { title: 'Заголовок-2', itemType: BLOG_ITEMS.SECONDARY_TITLE },
-  // { title: 'Список', itemType: BLOG_ITEMS.LIST },
-  // { title: 'Автор', itemType: BLOG_ITEMS.ABOUT },
 ];
 
 const AddBlogTooltip = ({ setBlog }) => {

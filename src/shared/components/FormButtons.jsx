@@ -5,9 +5,14 @@ const FormButtons = ({
   disabledCancel = false,
   onCancel,
   onDelete,
+  sx = {},
+  ref,
 }) => {
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
+    <Box
+      ref={ref}
+      sx={{ display: 'flex', justifyContent: 'space-around', ...sx }}
+    >
       <Button
         variant="contained"
         color="primary"
