@@ -6,6 +6,7 @@ import {
 } from 'shared/components';
 import PlusIcon from '@mui/icons-material/AddCircleOutline';
 import { nanoid } from 'nanoid';
+import AddSomeoneBtn from 'shared/components/AddSomeoneBtn';
 
 const initialItem = {
   image: '',
@@ -13,8 +14,19 @@ const initialItem = {
   price: 0,
 };
 
-const MyHelpSection = ({ list, block, setPage }) => {
-  const handleChange = (e, id) => {
+const MyHelpSection = ({ block, setPage, list, title, descr }) => {
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setPage((p) => ({
+      ...p,
+      [block]: {
+        ...p[block],
+        [name]: value,
+      },
+    }));
+  };
+
+  const handleChangeItem = (e, id) => {
     const { name, value } = e.target;
     setPage((p) => ({
       ...p,
@@ -52,78 +64,75 @@ const MyHelpSection = ({ list, block, setPage }) => {
     }));
   };
   return (
-    <FieldsGroupWrapper
-      label={'Секція з розцінками'}
-      sx={{
-        p: 0,
-        pt: 2,
-        pb: 2,
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-      }}
-    >
-      <List sx={{ p: 1, width: '100%', '& > :not(style)': { mb: 2 } }}>
-        {list.map(({ id, imageUrl, descr, price, title }) => (
-          <ListItem key={id} sx={{ width: '100%' }}>
-            <RemovingItemWrapper
-              sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                rowGap: 1,
-                border: '1px solid #00000050',
-                borderRadius: 1,
-                pt: 1,
-                pl: 1,
-                pr: 1,
-                width: '100%',
-              }}
-              onClick={() => handleRemoveItem(id)}
-            >
-              <TextField
-                label="Ціна"
-                type="number"
-                name="price"
-                value={price}
-                onChange={(e) => handleChange(e, id)}
-                fullWidth
-              />
-              <TextField
-                label="Заголовок"
-                name="title"
-                value={title}
-                onChange={(e) => handleChange(e, id)}
-                fullWidth
-              />
+    <FieldsGroupWrapper label={'Послуги та розцінки'}>
+      <TextField
+        label="Заголовок секції"
+        name="title"
+        value={title}
+        onChange={handleChange}
+        fullWidth
+      />
+      <FieldsGroupWrapper label={'Опис секції'}>
+        <Textarea
+          name="descr"
+          value={descr}
+          onChange={handleChange}
+          sx={{ width: '100%' }}
+        />
+      </FieldsGroupWrapper>
 
-              <FieldsGroupWrapper label={'Опис'} sx={{ p: 1, width: '100%' }}>
-                <Textarea
-                  name="descr"
-                  value={descr}
-                  onChange={(e) => handleChange(e, id)}
-                  sx={{ width: '100%' }}
+      <List
+        sx={{ width: '100%', '& > :not(style):not(:last-child)': { mb: 2 } }}
+      >
+        {list.map(({ id, imageUrl, descr, price, title }, i) => (
+          <ListItem key={id} sx={{ width: '100%', p: 0 }}>
+            <FieldsGroupWrapper label={`Послуга-${i + 1}`}>
+              <RemovingItemWrapper
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  rowGap: 2,
+                  width: '100%',
+                }}
+                onClick={() => handleRemoveItem(id)}
+              >
+                <TextField
+                  label="Ціна"
+                  type="number"
+                  name="price"
+                  value={price}
+                  onChange={(e) => handleChangeItem(e, id)}
+                  fullWidth
                 />
-              </FieldsGroupWrapper>
-              <TextField
-                label="Посилання на зображення"
-                name="imageUrl"
-                value={imageUrl}
-                onChange={(e) => handleChange(e, id)}
-                fullWidth
-              />
-            </RemovingItemWrapper>
+                <TextField
+                  label="Заголовок"
+                  name="title"
+                  value={title}
+                  onChange={(e) => handleChangeItem(e, id)}
+                  fullWidth
+                />
+
+                <FieldsGroupWrapper label={'Опис'}>
+                  <Textarea
+                    name="descr"
+                    value={descr}
+                    onChange={(e) => handleChangeItem(e, id)}
+                    sx={{ width: '100%' }}
+                  />
+                </FieldsGroupWrapper>
+                <TextField
+                  label="Посилання на зображення"
+                  name="imageUrl"
+                  value={imageUrl}
+                  onChange={(e) => handleChangeItem(e, id)}
+                  fullWidth
+                />
+              </RemovingItemWrapper>
+            </FieldsGroupWrapper>
           </ListItem>
         ))}
       </List>
-      <Chip
-        label="Додати картку"
-        color="success"
-        variant="outlined"
-        size="medium"
-        icon={<PlusIcon />}
-        onClick={() => handleAddItem()}
-      />
+      <AddSomeoneBtn label="Додати послугу" onClick={() => handleAddItem()} />
     </FieldsGroupWrapper>
   );
 };

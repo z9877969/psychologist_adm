@@ -1,3 +1,12 @@
 export { default as VideoSection } from './VideoSection';
 export { default as SertificatesSection } from './SertificatesSection';
 export { default as MyHelpSection } from './MyHelpSection';
+export { default as HeaderSection } from './HeaderSection';
+export { default as HeroSection } from './HeroSection';
+export { default as AboutSection } from './AboutSection';
+export { default as QuoteSection } from './QuoteSection';
+export { default as ProblemsSection } from './ProblemsSection';
+export { default as ReserveSection } from './ReserveSection';
+export { default as BlogSection } from './BlogSection';
+export { default as FAQSection } from './FAQSection';
+export { default as FooterSection } from './FooterSection';

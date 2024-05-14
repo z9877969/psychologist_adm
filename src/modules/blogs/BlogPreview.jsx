@@ -11,7 +11,7 @@ const BlogPreview = ({ author, category, previewUrl, setBlog }) => {
   return (
     <FieldsGroupWrapper
       label={'Превью блога'}
-      sx={{ p: 1, pt: 3, '& > :not(style)': { mb: 1 }, mb: 2, mr: 1 }}
+      sx={{ pt: 3, '& > :not(style)': { mb: 1 }, mr: 1 }}
     >
       <FormControl fullWidth>
         <InputLabel id="category">Категорія</InputLabel>

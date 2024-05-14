@@ -64,10 +64,7 @@ const Quote = ({ content, accent, author, setBlog, id }) => {
           )}
         </ListItem>
         <ListItem>
-          <FieldsGroupWrapper
-            label="Текст"
-            sx={{ width: '100%', border: 'none' }}
-          >
+          <FieldsGroupWrapper label="Текст" sx={{ border: 'none' }}>
             <Textarea
               name="content"
               value={content}

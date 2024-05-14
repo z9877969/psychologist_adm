@@ -1,7 +1,7 @@
 import { TextField } from '@mui/material';
 import { FieldsGroupWrapper } from 'shared/components';
 
-const VideoSection = ({ title, videoUrl, setPage, block }) => {
+const HeaderSection = ({ block, setPage, factPhone, displayingPhone }) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setPage((p) => ({
@@ -12,20 +12,22 @@ const VideoSection = ({ title, videoUrl, setPage, block }) => {
       },
     }));
   };
+
   return (
-    <FieldsGroupWrapper label={'Секція відео'}>
+    <FieldsGroupWrapper label={'Секція хедер'}>
       <TextField
-        label="Заголовок"
-        name="title"
-        value={title}
+        label="Фактичний номер телефону"
+        name="factPhone"
+        value={factPhone}
         onChange={handleChange}
         fullWidth
+        placeholder="+380991234567"
         sx={{ mb: 2 }}
       />
       <TextField
-        label="YouTube url"
-        name="videoUrl"
-        value={videoUrl}
+        label="Відображення на сторінці"
+        name="displayingPhone"
+        value={displayingPhone}
         onChange={handleChange}
         fullWidth
       />
@@ -33,4 +35,4 @@ const VideoSection = ({ title, videoUrl, setPage, block }) => {
   );
 };
 
-export default VideoSection;
+export default HeaderSection;

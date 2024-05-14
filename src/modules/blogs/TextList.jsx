@@ -19,7 +19,7 @@ const TextList = ({ id, content, setBlog }) => {
     [setBlog, id]
   );
   return (
-    <FieldsGroupWrapper label="Список" sx={{ width: '100%', border: 'none' }}>
+    <FieldsGroupWrapper label="Список" sx={{ border: 'none' }}>
       <Textarea
         value={content?.join('\n') || ''}
         onChange={handleContentChange}
